@@ -19,13 +19,33 @@
             <span class="font-bold text-slate-800 text-base sm:text-lg truncate">Sistem Pengarsipan Digital</span>
         </div>
         
-        <!-- User Menu -->
-        <div class="flex items-center space-x-2 cursor-pointer bg-slate-50 hover:bg-slate-100 p-1.5 sm:p-2 rounded-xl border border-slate-100 transition">
-            <div class="bg-slate-200 p-1.5 rounded-full text-slate-600 flex items-center justify-center">
-                <i class="fa-solid fa-user text-xs sm:text-sm"></i>
+        <!-- User Menu dengan Dropdown Logout -->
+        <div class="relative">
+            <!-- Tombol User (Diklik untuk buka/tutup menu) -->
+            <button id="userMenuBtn" onclick="toggleUserMenu()" class="flex items-center space-x-2 cursor-pointer bg-slate-50 hover:bg-slate-100 p-1.5 sm:p-2 rounded-xl border border-slate-200 transition focus:outline-none">
+                <div class="bg-slate-200 p-1.5 rounded-full text-slate-600 flex items-center justify-center">
+                    <i class="fa-solid fa-user text-xs sm:text-sm"></i>
+                </div>
+                <span class="text-xs sm:text-sm font-medium text-slate-700">{{ Auth::user()->name ?? 'Admin' }}</span>
+                <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+            </button>
+
+            <!-- Menu Dropdown -->
+            <div id="userDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-100 py-1 z-50 transition-all duration-200">
+                <div class="px-4 py-2 border-b border-slate-100">
+                    <p class="text-xs text-slate-400">Login sebagai</p>
+                    <p class="text-sm font-semibold text-slate-800 truncate">{{ Auth::user()->email ?? 'admin@dukcapil.go.id' }}</p>
+                </div>
+                
+                <!-- Form Logout Resmi Laravel -->
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 flex items-center space-x-2 transition">
+                        <i class="fa-solid fa-right-from-bracket text-xs"></i>
+                        <span>Keluar (Logout)</span>
+                    </button>
+                </form>
             </div>
-            <span class="text-xs sm:text-sm font-medium text-slate-700">Admin</span>
-            <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
         </div>
     </header>
 
@@ -66,7 +86,7 @@
         <!-- Search Hint -->
         <div class="flex items-start sm:items-center space-x-2 text-slate-500 text-xs sm:text-sm mb-8 sm:mb-10 pl-1">
             <i class="fa-regular fa-lightbulb text-amber-500 mt-0.5 sm:mt-0"></i>
-            <span>Contoh pencarian: <strong class="text-slate-600">Ahmad</strong> $\rightarrow$ akan menemukan Ahmad, Kel. Bonto-Bontoa, Boks-001, KK</span>
+            <span>Contoh pencarian: <strong class="text-slate-600">Ahmad</strong> akan menemukan Ahmad, Kel. Bonto-Bontoa, Boks-001, KK</span>
         </div>
 
         <!-- Section List Kecamatan -->
@@ -82,7 +102,7 @@
                         <i class="fa-solid fa-folder text-lg sm:text-xl"></i>
                     </div>
                     <h3 class="font-bold text-slate-900 text-base sm:text-lg">Kec. Bacukiki</h3>
-                    <p class="text-slate-400 text-xs sm:text-sm mt-1 mb-6">1.245 Arsip</p>
+                    <p class="text-slate-400 text-xs sm:text-sm mt-1 mb-6">4 Kelurahan</p>
                 </div>
                 <a href="#" class="bg-blue-800 hover:bg-blue-900 text-white font-medium py-2.5 px-4 rounded-xl flex items-center justify-center space-x-2 transition duration-200 text-xs sm:text-sm">
                     <span>Lihat Arsip</span>
@@ -138,6 +158,23 @@
         </div>
 
     </main>
+
+    <!-- Script JavaScript untuk Toggle Dropdown -->
+    <script>
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        // Menutup dropdown otomatis jika mengklik area luar menu
+        window.addEventListener('click', function(e) {
+            const btn = document.getElementById('userMenuBtn');
+            const dropdown = document.getElementById('userDropdown');
+            if (btn && dropdown && !btn.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+    </script>
 
 </body>
 </html>
