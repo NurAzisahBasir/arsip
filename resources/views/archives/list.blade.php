@@ -34,7 +34,14 @@
                 <p class="text-sm text-slate-500 mb-1">{{ $context }}</p>
                 <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">{{ $title }}</h1>
             </div>
-            <span class="text-sm text-slate-500">{{ count($items) }} data</span>
+            <div class="flex items-center gap-3">
+                <input id="listSearch" type="search" placeholder="Cari..." class="py-2 px-3 rounded-xl border border-slate-200 focus:outline-none text-sm w-56" />
+                <button id="addItemBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Tambah {{ Str::contains($title, 'Rak') ? 'Rak' : 'Item' }}</span>
+                </button>
+                <span class="text-sm text-slate-500">{{ count($items) }} data</span>
+            </div>
         </div>
 
         <section class="bg-white border border-slate-200 rounded-lg divide-y divide-slate-100">
@@ -63,5 +70,72 @@
             @endforelse
         </section>
     </main>
+
+    <!-- Modal Tambah Item -->
+    <div id="addModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 w-full max-w-md">
+            <h3 class="text-lg font-semibold mb-4">Tambah {{ Str::contains($title, 'Rak') ? 'Rak' : 'Item' }}</h3>
+            <form id="addForm">
+                @csrf
+                <div class="mb-3">
+                    <label class="block text-sm text-slate-600 mb-1">Nama</label>
+                    <input name="name" class="w-full border border-slate-200 rounded-xl px-3 py-2" required />
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm text-slate-600 mb-1">Lokasi (opsional)</label>
+                    <input name="location" class="w-full border border-slate-200 rounded-xl px-3 py-2" />
+                </div>
+                <div class="flex justify-end gap-2">
+                    <button type="button" id="cancelAdd" class="px-4 py-2 rounded-xl border">Batal</button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-emerald-600 text-white">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Simple client-side search
+        (function(){
+            const search = document.getElementById('listSearch');
+            if (search) {
+                search.addEventListener('input', function(){
+                    const q = this.value.trim().toLowerCase();
+                    document.querySelectorAll('section a, section div').forEach(el => {
+                        const txt = (el.textContent||'').toLowerCase();
+                        el.style.display = q === '' || txt.indexOf(q) !== -1 ? '' : 'none';
+                    });
+                });
+            }
+
+            // Modal handlers
+            const addBtn = document.getElementById('addItemBtn');
+            const modal = document.getElementById('addModal');
+            const cancel = document.getElementById('cancelAdd');
+            const form = document.getElementById('addForm');
+
+            addBtn && addBtn.addEventListener('click', () => modal.classList.remove('hidden'));
+            cancel && cancel.addEventListener('click', () => modal.classList.add('hidden'));
+
+            form && form.addEventListener('submit', function(e){
+                e.preventDefault();
+                const data = Object.fromEntries(new FormData(this).entries());
+                fetch('{{ url()->current() }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('input[name=_token]').value,
+                        'Accept':'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then(r => r.json()).then(res => {
+                    if (res.success) {
+                        location.reload();
+                    } else {
+                        alert('Gagal menyimpan');
+                    }
+                }).catch(() => alert('Gagal menyimpan'));
+            });
+        })();
+    </script>
 </body>
 </html>

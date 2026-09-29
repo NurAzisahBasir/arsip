@@ -169,6 +169,27 @@ class ArchiveController extends Controller
         );
     }
 
+    public function storeRak(Request $request, Kelurahan $kelurahan)
+    {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'location' => ['nullable', 'string', 'max:255'],
+            'notes' => ['nullable', 'string'],
+        ]);
+
+        $rak = $kelurahan->raks()->create([
+            'name' => $data['name'],
+            'location' => $data['location'] ?? null,
+            'notes' => $data['notes'] ?? null,
+        ]);
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json(['success' => true, 'rak' => $rak]);
+        }
+
+        return redirect()->route('archives.raks.index', $kelurahan)->with('success', 'Rak berhasil dibuat');
+    }
+
     public function boks(Rak $rak): View
     {
         $items = $rak->boks()

@@ -28,6 +28,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/search', [ArchiveController::class, 'search'])->name('archives.search');
     Route::get('/kecamatan/{kecamatan}/kelurahan', [ArchiveController::class, 'kelurahans'])->name('archives.kelurahans.index');
     Route::get('/kelurahan/{kelurahan}/rak', [ArchiveController::class, 'raks'])->name('archives.raks.index');
+    Route::post('/kelurahan/{kelurahan}/rak', [ArchiveController::class, 'storeRak'])->name('archives.raks.store');
     Route::get('/rak/{rak}/boks', [ArchiveController::class, 'boks'])->name('archives.boks.index');
     Route::get('/boks/{boks}/arsip', [ArchiveController::class, 'arsips'])->name('archives.arsips.index');
 
