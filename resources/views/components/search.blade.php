@@ -6,7 +6,7 @@
             id="globalSearchInput"
             name="q"
             value="{{ request('q') }}"
-            placeholder="Cari Kecamatan, Kelurahan, kode boks, arsip..." 
+            placeholder="Cari Kecamatan, Kelurahan, data arsip" 
             aria-label="Cari data arsip"
             class="w-full py-2.5 sm:py-3 px-1 border-0 bg-white text-slate-700 placeholder-slate-400 text-sm sm:text-base shadow-none ring-0 focus:border-0 focus:outline-none focus:ring-0"
             autocomplete="on"
@@ -14,15 +14,21 @@
         <button type="button" id="clearSearchBtn" aria-label="Hapus pencarian" class="hidden text-slate-400 hover:text-slate-600 px-2 text-sm">
             <i class="fa-solid fa-xmark"></i>
         </button>
+        <button 
+            type="submit" 
+            id="searchSubmitBtn"
+            class=" sm:w-auto bg-blue-800 hover:bg-blue-900 text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl transition duration-200 text-sm sm:text-base whitespace-nowrap cursor-pointer"
+        >
+            Cari
+        </button>
     </div>
-    <button 
-        type="submit" 
-        id="searchSubmitBtn"
-        class="w-full sm:w-auto bg-blue-800 hover:bg-blue-900 text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl transition duration-200 text-sm sm:text-base whitespace-nowrap cursor-pointer"
-    >
-        Cari
-    </button>
 </form>
+
+<!-- Search Hint -->
+<div class="flex items-start sm:items-center space-x-2 text-slate-500 text-xs sm:text-sm mb-8 sm:mb-10 pl-1">
+    <i class="fa-regular fa-lightbulb text-amber-500 mt-0.5 sm:mt-0"></i>
+    <span>Contoh pencarian: Bacukiki, No. KK</span>
+</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

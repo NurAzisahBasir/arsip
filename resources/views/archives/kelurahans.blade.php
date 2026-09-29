@@ -46,6 +46,7 @@
                             <p class="mt-1 text-xs text-slate-400">Kode {{ $kelurahan['code'] }}</p>
                         @endif
                         <p class="mt-1 text-sm text-slate-500">{{ $kelurahan['archive_count'] }} Arsip</p>
+                        <br>
                         <a href="{{ $kelurahan['href'] }}" class="mt-auto flex items-center justify-center gap-2 rounded-md bg-blue-800 px-3 py-2.5 text-xs font-semibold text-white transition hover:bg-blue-900 sm:text-sm">
                             <span>Lihat Arsip</span>
                             <i class="fa-solid fa-arrow-right text-[10px]"></i>

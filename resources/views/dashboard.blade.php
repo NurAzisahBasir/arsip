@@ -34,12 +34,6 @@
         <!-- Global Search Bar Responsif -->
         <x-search />
 
-        <!-- Search Hint -->
-        <div class="flex items-start sm:items-center space-x-2 text-slate-500 text-xs sm:text-sm mb-8 sm:mb-10 pl-1">
-            <i class="fa-regular fa-lightbulb text-amber-500 mt-0.5 sm:mt-0"></i>
-            <span>Contoh pencarian: <span class="text-slate-600">Ahmad, Kel. Bonto-Bontoa, Boks-001, KK</span></span>
-        </div>
-
         <!-- Section List Kecamatan -->
         <h2 class="text-lg sm:text-xl font-bold text-slate-800 mb-4 sm:mb-6">Daftar Kecamatan</h2>
 
