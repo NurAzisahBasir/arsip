@@ -27,14 +27,7 @@
             <p class="mt-1 text-sm text-slate-500 sm:text-base">Pilih Kelurahan untuk melihat lokasi penyimpanan arsip</p>
         </div>
 
-        <form id="kelurahanSearchForm" class="mb-7 flex items-center gap-2 rounded-lg border border-slate-200 bg-white p-1.5 shadow-sm" role="search">
-            <label for="kelurahanSearch" class="sr-only">Cari Kelurahan</label>
-            <i class="fa-solid fa-magnifying-glass ml-3 text-slate-400"></i>
-            <input id="kelurahanSearch" type="search" placeholder="Cari Kelurahan..." autocomplete="off" class="min-w-0 flex-1 border-0 bg-transparent px-2 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-0">
-            <button type="submit" aria-label="Cari" class="flex h-10 w-11 shrink-0 items-center justify-center rounded-md bg-blue-800 text-white transition hover:bg-blue-900">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </form>
+        <x-search />
 
         <section aria-labelledby="kelurahan-list-heading">
             <div class="mb-4 flex items-center justify-between gap-3">

@@ -61,6 +61,8 @@
         </section>
     </main>
 
+    <x-search />
+
     <!-- Modal Tambah Item -->
     <div id="addModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
         <div class="bg-white rounded-xl p-6 w-full max-w-md">
