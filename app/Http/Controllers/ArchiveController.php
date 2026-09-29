@@ -146,16 +146,20 @@ class ArchiveController extends Controller
 
     public function raks(Kelurahan $kelurahan): View
     {
-        $items = $kelurahan->raks()
+        // Load boks with arsips count so we can compute total arsip per rak
+        $raks = $kelurahan->raks()
+            ->with(['boks' => fn ($q) => $q->withCount('arsips')])
             ->withCount('boks')
             ->orderBy('name')
-            ->get()
-            ->map(fn (Rak $rak) => [
-                'label' => $rak->name,
-                'subtitle' => trim(collect([$rak->location, $rak->boks_count.' boks'])->filter()->implode(' · ')),
-                'href' => route('archives.boks.index', $rak),
-            ])
-            ->all();
+            ->get();
+
+        $items = $raks->map(fn (Rak $rak) => [
+            'label' => $rak->name,
+            'subtitle' => trim(collect([$rak->location, $rak->boks_count.' boks'])->filter()->implode(' · ')),
+            'count' => $rak->boks->sum(fn ($b) => $b->arsips_count ?? 0),
+            'href' => route('archives.boks.index', $rak),
+            'delete_url' => route('archives.raks.destroy', $rak),
+        ])->all();
 
         return $this->listing(
             'Daftar Rak',
@@ -171,13 +175,16 @@ class ArchiveController extends Controller
 
     public function storeRak(Request $request, Kelurahan $kelurahan)
     {
+
         $data = $request->validate([
+            'nik' => ['nullable','string','max:64','unique:raks,nik'],
             'name' => ['required', 'string', 'max:255'],
             'location' => ['nullable', 'string', 'max:255'],
             'notes' => ['nullable', 'string'],
         ]);
 
         $rak = $kelurahan->raks()->create([
+            'nik' => $data['nik'] ?? null,
             'name' => $data['name'],
             'location' => $data['location'] ?? null,
             'notes' => $data['notes'] ?? null,
@@ -188,6 +195,18 @@ class ArchiveController extends Controller
         }
 
         return redirect()->route('archives.raks.index', $kelurahan)->with('success', 'Rak berhasil dibuat');
+    }
+
+    public function destroyRak(Rak $rak)
+    {
+        // Optionally check permissions here
+        $rak->delete();
+
+        if (request()->wantsJson() || request()->ajax()) {
+            return response()->json(['success' => true]);
+        }
+
+        return back()->with('success', 'Rak dihapus');
     }
 
     public function boks(Rak $rak): View
