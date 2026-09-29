@@ -8,7 +8,7 @@
             value="{{ request('q') }}"
             placeholder="Cari Kecamatan, Kelurahan, kode boks, arsip..." 
             aria-label="Cari data arsip"
-            class="w-full py-2.5 sm:py-3 px-1 text-slate-700 placeholder-slate-400 text-sm sm:text-base"
+            class="w-full py-2.5 sm:py-3 px-1 text-slate-700 placeholder-slate-400   text-sm sm:text-base"
             autocomplete="off"
         >
         <button type="button" id="clearSearchBtn" aria-label="Hapus pencarian" class="hidden text-slate-400 hover:text-slate-600 px-2 text-sm">
