@@ -1,5 +1,5 @@
-<form id="globalSearchForm" method="GET" action="{{ route('archives.search') }}" class="bg-white p-2 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center gap-2 mb-3" role="search">
-    <div class="flex items-center w-full pl-2 sm:pl-4">
+<form id="globalSearchForm" method="GET" action="{{ route('archives.search') }}" class="bg-white p-2 rounded-2xl shadow-sm border border-slate-200 focus-within:border-blue-300 focus-within:ring-2 focus-within:ring-blue-100 flex flex-col sm:flex-row items-center gap-2 mb-3" role="search">
+    <div class="flex items-center w-full pl-2 sm:pl-4 bg-white">
         <i class="fa-solid fa-magnifying-glass text-blue-600 text-base sm:text-lg mr-2"></i>
         <input 
             type="text" 
@@ -8,8 +8,8 @@
             value="{{ request('q') }}"
             placeholder="Cari Kecamatan, Kelurahan, kode boks, arsip..." 
             aria-label="Cari data arsip"
-            class="w-full py-2.5 sm:py-3 px-1 text-slate-700 placeholder-slate-400   text-sm sm:text-base"
-            autocomplete="off"
+            class="w-full py-2.5 sm:py-3 px-1 border-0 bg-white text-slate-700 placeholder-slate-400 text-sm sm:text-base shadow-none ring-0 focus:border-0 focus:outline-none focus:ring-0"
+            autocomplete="on"
         >
         <button type="button" id="clearSearchBtn" aria-label="Hapus pencarian" class="hidden text-slate-400 hover:text-slate-600 px-2 text-sm">
             <i class="fa-solid fa-xmark"></i>

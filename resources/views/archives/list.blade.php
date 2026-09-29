@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title }} - Sistem Pengarsipan Digital</title>
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -90,10 +90,10 @@
                     @endif
                 @empty
                     <p class="px-4 sm:px-6 py-8 text-center text-slate-500">{{ $emptyMessage }}</p>
-                @endforelse
-            </section>
-        @endif
-
+                    @endforelse
+                </section>
+                @endif
+                
     <script>
         // Delete handler for AJAX
         document.querySelectorAll('.deleteBtn').forEach(btn => {
@@ -120,7 +120,6 @@
     </script>
     </main>
 
-    <x-search />
 
     <!-- Modal Tambah Item -->
     <div id="addModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
