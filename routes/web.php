@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ArchiveController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
@@ -23,13 +24,11 @@ Route::get('/', function () {
 // 2. Semua halaman aplikasi (arsip, dashboard, dll) dimasukkan ke dalam grup middleware auth
 Route::middleware(['auth'])->group(function () {
     
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-
-    // Masukkan route arsip atau halaman lainnya di sini
-    // Example:
-    // Route::get('/arsip', [ArsipController::class, 'index'])->name('arsip.index');
+    Route::get('/dashboard', [ArchiveController::class, 'index'])->name('dashboard');
+    Route::get('/kecamatan/{kecamatan}/kelurahan', [ArchiveController::class, 'kelurahans'])->name('archives.kelurahans.index');
+    Route::get('/kelurahan/{kelurahan}/rak', [ArchiveController::class, 'raks'])->name('archives.raks.index');
+    Route::get('/rak/{rak}/boks', [ArchiveController::class, 'boks'])->name('archives.boks.index');
+    Route::get('/boks/{boks}/arsip', [ArchiveController::class, 'arsips'])->name('archives.arsips.index');
 
 });
 

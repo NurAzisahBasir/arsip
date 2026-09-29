@@ -49,24 +49,12 @@
         </div>
 
         <!-- Global Search Bar Responsif -->
-        <div class="bg-white p-2 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center gap-2 mb-3">
-            <div class="flex items-center w-full pl-2 sm:pl-4">
-                <i class="fa-solid fa-magnifying-glass text-blue-600 text-base sm:text-lg mr-2"></i>
-                <input 
-                    type="text" 
-                    placeholder="Cari Kecamatan, Kelurahan, NIK, No. KK, atau Nama..." 
-                    class="w-full py-2.5 sm:py-3 px-1 text-slate-700 placeholder-slate-400 focus:outline-none text-sm sm:text-base"
-                >
-            </div>
-            <button class="w-full sm:w-auto bg-blue-800 hover:bg-blue-900 text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl transition duration-200 text-sm sm:text-base whitespace-nowrap">
-                Cari
-            </button>
-        </div>
+        <x-search />
 
         <!-- Search Hint -->
         <div class="flex items-start sm:items-center space-x-2 text-slate-500 text-xs sm:text-sm mb-8 sm:mb-10 pl-1">
             <i class="fa-regular fa-lightbulb text-amber-500 mt-0.5 sm:mt-0"></i>
-            <span>Contoh pencarian: <strong class="text-slate-600">Ahmad</strong> $\rightarrow$ akan menemukan Ahmad, Kel. Bonto-Bontoa, Boks-001, KK</span>
+            <span>Contoh pencarian: <span class="text-slate-600">Ahmad, Kel. Bonto-Bontoa, Boks-001, KK</span></span>
         </div>
 
         <!-- Section List Kecamatan -->
@@ -74,67 +62,23 @@
 
         <!-- Grid Responsif: 1 Kolom (HP), 2 Kolom (Tablet), 4 Kolom (Desktop) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            
-            <!-- Card 1 -->
-            <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm hover:shadow-md transition duration-200 flex flex-col justify-between">
-                <div>
-                    <div class="bg-blue-100 text-blue-600 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center mb-4">
-                        <i class="fa-solid fa-folder text-lg sm:text-xl"></i>
+            @forelse ($kecamatans as $kecamatan)
+                <div class="data-row bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm hover:shadow-md transition duration-200 flex flex-col justify-between">
+                    <div>
+                        <div class="bg-blue-100 text-blue-600 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-folder text-lg sm:text-xl"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base sm:text-lg">Kec. {{ $kecamatan->name }}</h3>
+                        <p class="text-slate-400 text-xs sm:text-sm mt-1 mb-6">{{ $kecamatan->kelurahans_count }} Kelurahan</p>
                     </div>
-                    <h3 class="font-bold text-slate-900 text-base sm:text-lg">Kec. Bacukiki</h3>
-                    <p class="text-slate-400 text-xs sm:text-sm mt-1 mb-6">1.245 Arsip</p>
+                    <a href="{{ route('archives.kelurahans.index', $kecamatan) }}" class="bg-blue-800 hover:bg-blue-900 text-white font-medium py-2.5 px-4 rounded-xl flex items-center justify-center space-x-2 transition duration-200 text-xs sm:text-sm">
+                        <span>Lihat Arsip</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
                 </div>
-                <a href="#" class="bg-blue-800 hover:bg-blue-900 text-white font-medium py-2.5 px-4 rounded-xl flex items-center justify-center space-x-2 transition duration-200 text-xs sm:text-sm">
-                    <span>Lihat Arsip</span>
-                    <i class="fa-solid fa-arrow-right text-xs"></i>
-                </a>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm hover:shadow-md transition duration-200 flex flex-col justify-between">
-                <div>
-                    <div class="bg-blue-100 text-blue-600 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center mb-4">
-                        <i class="fa-solid fa-folder text-lg sm:text-xl"></i>
-                    </div>
-                    <h3 class="font-bold text-slate-900 text-base sm:text-lg">Kec. Soreang</h3>
-                    <p class="text-slate-400 text-xs sm:text-sm mt-1 mb-6">856 Arsip</p>
-                </div>
-                <a href="#" class="bg-blue-800 hover:bg-blue-900 text-white font-medium py-2.5 px-4 rounded-xl flex items-center justify-center space-x-2 transition duration-200 text-xs sm:text-sm">
-                    <span>Lihat Arsip</span>
-                    <i class="fa-solid fa-arrow-right text-xs"></i>
-                </a>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm hover:shadow-md transition duration-200 flex flex-col justify-between">
-                <div>
-                    <div class="bg-blue-100 text-blue-600 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center mb-4">
-                        <i class="fa-solid fa-folder text-lg sm:text-xl"></i>
-                    </div>
-                    <h3 class="font-bold text-slate-900 text-base sm:text-lg">Kec. Ujung</h3>
-                    <p class="text-slate-400 text-xs sm:text-sm mt-1 mb-6">932 Arsip</p>
-                </div>
-                <a href="#" class="bg-blue-800 hover:bg-blue-900 text-white font-medium py-2.5 px-4 rounded-xl flex items-center justify-center space-x-2 transition duration-200 text-xs sm:text-sm">
-                    <span>Lihat Arsip</span>
-                    <i class="fa-solid fa-arrow-right text-xs"></i>
-                </a>
-            </div>
-
-            <!-- Card 4 -->
-            <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm hover:shadow-md transition duration-200 flex flex-col justify-between">
-                <div>
-                    <div class="bg-blue-100 text-blue-600 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center mb-4">
-                        <i class="fa-solid fa-folder text-lg sm:text-xl"></i>
-                    </div>
-                    <h3 class="font-bold text-slate-900 text-base sm:text-lg">Kec. Bacukiki Barat</h3>
-                    <p class="text-slate-400 text-xs sm:text-sm mt-1 mb-6">721 Arsip</p>
-                </div>
-                <a href="#" class="bg-blue-800 hover:bg-blue-900 text-white font-medium py-2.5 px-4 rounded-xl flex items-center justify-center space-x-2 transition duration-200 text-xs sm:text-sm">
-                    <span>Lihat Arsip</span>
-                    <i class="fa-solid fa-arrow-right text-xs"></i>
-                </a>
-            </div>
-
+            @empty
+                <p id="noDataMessage" class="text-slate-500 col-span-full">Belum ada data kecamatan.</p>
+            @endforelse
         </div>
 
     </main>
