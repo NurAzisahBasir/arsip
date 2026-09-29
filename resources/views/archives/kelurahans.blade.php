@@ -8,23 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="min-h-screen bg-slate-50 font-sans text-slate-800 antialiased">
-    <header class="sticky top-0 z-20 border-b border-slate-200 bg-white px-4 py-3 shadow-sm sm:px-8">
-        <div class="mx-auto flex max-w-6xl items-center justify-between gap-4">
-            <a href="{{ route('dashboard') }}" class="flex min-w-0 items-center gap-3">
-                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-700 text-white">
-                    <i class="fa-solid fa-folder-closed"></i>
-                </span>
-                <span class="truncate text-sm font-bold text-slate-800 sm:text-base">Sistem Pengarsipan Digital</span>
-            </a>
-            <div class="flex shrink-0 items-center gap-2 text-sm text-slate-600">
-                <span class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-600">
-                    <i class="fa-solid fa-user text-xs"></i>
-                </span>
-                <span class="hidden font-medium sm:inline">{{ Auth::user()->name ?? 'Admin' }}</span>
-                <i class="fa-solid fa-chevron-down text-[10px]"></i>
-            </div>
-        </div>
-    </header>
+    <x-app-header />
 
     <main class="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 sm:py-9">
         <a href="{{ route('dashboard') }}" class="mb-5 inline-flex items-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-blue-300 hover:text-blue-800">
