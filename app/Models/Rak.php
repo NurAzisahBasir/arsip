@@ -11,7 +11,7 @@ class Rak extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['kelurahan_id', 'name', 'location', 'notes'];
+    protected $fillable = ['kelurahan_id', 'nik', 'name', 'location', 'notes'];
 
     public function kelurahan(): BelongsTo
     {
