@@ -66,5 +66,22 @@
 
     </main>
 
+    <!-- Script JavaScript untuk Toggle Dropdown -->
+    <script>
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        // Menutup dropdown otomatis jika mengklik area luar menu
+        window.addEventListener('click', function(e) {
+            const btn = document.getElementById('userMenuBtn');
+            const dropdown = document.getElementById('userDropdown');
+            if (btn && dropdown && !btn.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+    </script>
+
 </body>
 </html>
