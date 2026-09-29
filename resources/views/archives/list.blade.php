@@ -8,17 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 antialiased min-h-screen flex flex-col">
-    <header class="bg-white border-b border-slate-200 px-4 sm:px-8 py-4 flex justify-between items-center shadow-sm">
-        <a href="{{ route('dashboard') }}" class="flex items-center space-x-3">
-            <span class="bg-blue-600 text-white p-2 rounded-lg flex items-center justify-center">
-                <i class="fa-solid fa-folder-closed"></i>
-            </span>
-            <span class="font-bold text-slate-800 text-sm sm:text-lg">Sistem Pengarsipan Digital</span>
-        </a>
-        <a href="{{ route('dashboard') }}" class="text-sm font-medium text-slate-600 hover:text-blue-800">
-            <i class="fa-solid fa-house mr-1"></i> Beranda
-        </a>
-    </header>
+    <x-app-header />
 
     <main class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10 w-full flex-grow">
         <nav aria-label="Breadcrumb" class="text-sm text-slate-500 mb-6 flex flex-wrap items-center gap-2">

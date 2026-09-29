@@ -31,16 +31,18 @@ class ArchiveNavigationTest extends TestCase
             'year' => 2024,
         ]);
 
-        $this->get(route('dashboard'))->assertOk()->assertSee('Kec. Bacukiki');
+        $this->get(route('dashboard'))->assertOk()->assertSee('Kec. Bacukiki')->assertSee('userMenuBtn');
         $this->get(route('archives.kelurahans.index', $kecamatan))
             ->assertOk()
+            ->assertSee('userMenuBtn')
             ->assertSee('Kel. Sumpang Minangae')
             ->assertSee('1 Arsip')
             ->assertSee('Cari Kelurahan...')
             ->assertSee('Lihat Arsip');
-        $this->get(route('archives.raks.index', $kelurahan))->assertOk()->assertSee('Rak A');
-        $this->get(route('archives.boks.index', $rak))->assertOk()->assertSee('Boks Boks-001');
-        $this->get(route('archives.arsips.index', $boks))->assertOk()->assertSee('Kartu Keluarga');
+        $this->get(route('archives.raks.index', $kelurahan))->assertOk()->assertSee('userMenuBtn')->assertSee('Rak A');
+        $this->get(route('archives.boks.index', $rak))->assertOk()->assertSee('userMenuBtn')->assertSee('Boks Boks-001');
+        $this->get(route('archives.arsips.index', $boks))->assertOk()->assertSee('userMenuBtn')->assertSee('Kartu Keluarga');
+        $this->get(route('archives.search', ['q' => 'Kartu Keluarga']))->assertOk()->assertSee('userMenuBtn');
     }
 
     public function test_seeded_kelurahan_codes_are_shown_under_their_kecamatan(): void
