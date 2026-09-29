@@ -1,16 +1,17 @@
-<!-- Form Global Search Bar Responsif -->
-<form id="globalSearchForm" onsubmit="return false;" class="bg-white p-2 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center gap-2 mb-3">
+<form id="globalSearchForm" method="GET" action="{{ route('archives.search') }}" class="bg-white p-2 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center gap-2 mb-3" role="search">
     <div class="flex items-center w-full pl-2 sm:pl-4">
         <i class="fa-solid fa-magnifying-glass text-blue-600 text-base sm:text-lg mr-2"></i>
         <input 
             type="text" 
             id="globalSearchInput"
-            placeholder="Cari Kecamatan, Kelurahan, NIK, No. KK, atau Nama..." 
+            name="q"
+            value="{{ request('q') }}"
+            placeholder="Cari Kecamatan, Kelurahan, kode boks, arsip..." 
+            aria-label="Cari data arsip"
             class="w-full py-2.5 sm:py-3 px-1 text-slate-700 placeholder-slate-400 focus:outline-none text-sm sm:text-base"
             autocomplete="off"
         >
-        <!-- Tombol Clear/Reset Input (Opsional) -->
-        <button type="button" id="clearSearchBtn" class="hidden text-slate-400 hover:text-slate-600 px-2 text-sm">
+        <button type="button" id="clearSearchBtn" aria-label="Hapus pencarian" class="hidden text-slate-400 hover:text-slate-600 px-2 text-sm">
             <i class="fa-solid fa-xmark"></i>
         </button>
     </div>
@@ -29,56 +30,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchForm = document.getElementById('globalSearchForm');
     const clearBtn = document.getElementById('clearSearchBtn');
 
-    // 1. Fungsi Utama Pencarian/Filter
-    function executeSearch() {
-        const query = searchInput.value.trim().toLowerCase();
-        
-        // Ganti '.data-row' dengan selector baris tabel atau kartu data Anda
-        const rows = document.querySelectorAll('.data-row'); 
-        let foundCount = 0;
+    if (!searchInput || !searchForm || !clearBtn) return;
 
-        rows.forEach(row => {
-            const textContent = row.textContent.toLowerCase();
-            if (textContent.includes(query)) {
-                row.classList.remove('hidden'); // Tampilkan jika cocok
-                foundCount++;
-            } else {
-                row.classList.add('hidden'); // Sembunyikan jika tidak cocok
-            }
-        });
-
-        // Toggle tombol 'Clear' (X)
-        if (query.length > 0) {
-            clearBtn.classList.remove('hidden');
-        } else {
-            clearBtn.classList.add('hidden');
-        }
-
-        // Tampilkan pesan "Data tidak ditemukan" jika perlu
-        const noDataMessage = document.getElementById('noDataMessage');
-        if (noDataMessage) {
-            if (foundCount === 0 && query !== '') {
-                noDataMessage.classList.remove('hidden');
-            } else {
-                noDataMessage.classList.add('hidden');
-            }
-        }
+    function updateClearButton() {
+        clearBtn.classList.toggle('hidden', searchInput.value.length === 0);
     }
 
-    // 2. Event Listener ketika mengetik (Live Filter / Real-time)
-    searchInput.addEventListener('input', executeSearch);
-
-    // 3. Event Listener ketika Form di-submit (Klik tombol Cari / Tekan Enter)
-    searchForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        executeSearch();
-    });
-
-    // 4. Reset Pencarian
+    searchInput.addEventListener('input', updateClearButton);
     clearBtn.addEventListener('click', function() {
         searchInput.value = '';
-        executeSearch();
+        updateClearButton();
         searchInput.focus();
     });
+
+    updateClearButton();
 });
 </script>

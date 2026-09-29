@@ -32,7 +32,12 @@ class ArchiveNavigationTest extends TestCase
         ]);
 
         $this->get(route('dashboard'))->assertOk()->assertSee('Kec. Bacukiki');
-        $this->get(route('archives.kelurahans.index', $kecamatan))->assertOk()->assertSee('Sumpang Minangae');
+        $this->get(route('archives.kelurahans.index', $kecamatan))
+            ->assertOk()
+            ->assertSee('Kel. Sumpang Minangae')
+            ->assertSee('1 Arsip')
+            ->assertSee('Cari Kelurahan...')
+            ->assertSee('Lihat Arsip');
         $this->get(route('archives.raks.index', $kelurahan))->assertOk()->assertSee('Rak A');
         $this->get(route('archives.boks.index', $rak))->assertOk()->assertSee('Boks Boks-001');
         $this->get(route('archives.arsips.index', $boks))->assertOk()->assertSee('Kartu Keluarga');
@@ -51,5 +56,57 @@ class ArchiveNavigationTest extends TestCase
             ->assertSee('Kode 1004')
             ->assertSee('Galung Maloang')
             ->assertSee('Kode 1010');
+    }
+
+    public function test_global_search_finds_locations_boxes_and_all_archive_fields(): void
+    {
+        $this->actingAs(User::factory()->create());
+
+        $kecamatan = Kecamatan::create(['name' => 'Kecamatan Contoh']);
+        $kelurahan = Kelurahan::create([
+            'kecamatan_id' => $kecamatan->id,
+            'name' => 'Kelurahan Uji',
+            'code' => '1099',
+        ]);
+        $rak = Rak::create([
+            'kelurahan_id' => $kelurahan->id,
+            'name' => 'Rak Rahasia',
+            'location' => 'Ruang Mawar',
+            'notes' => 'Catatan rak unik',
+        ]);
+        $boks = Boks::create([
+            'rak_id' => $rak->id,
+            'code' => 'BOX-XY77',
+            'year_start' => 2020,
+            'year_end' => 2024,
+            'description' => 'Deskripsi boks khusus',
+        ]);
+        Arsip::create([
+            'boks_id' => $boks->id,
+            'archive_number' => 'ARS-7788',
+            'title' => 'Judul Berkas Khusus',
+            'document_type' => 'FORM-UNIK',
+            'year' => 2023,
+            'description' => 'Keterangan arsip istimewa',
+            'file_path' => 'dokumen/lokasi-unik.pdf',
+        ]);
+
+        foreach ([
+            'Kecamatan Contoh' => 'Kecamatan Contoh',
+            '1099' => 'Kelurahan Uji (1099)',
+            'Ruang Mawar' => 'Rak Rahasia',
+            'BOX-XY77' => 'Boks BOX-XY77',
+            '2024' => 'Boks BOX-XY77',
+            'Deskripsi boks khusus' => 'Boks BOX-XY77',
+            'ARS-7788' => 'ARS-7788 - Judul Berkas Khusus',
+            'FORM-UNIK' => 'ARS-7788 - Judul Berkas Khusus',
+            '2023' => 'ARS-7788 - Judul Berkas Khusus',
+            'Keterangan arsip istimewa' => 'ARS-7788 - Judul Berkas Khusus',
+            'lokasi-unik.pdf' => 'ARS-7788 - Judul Berkas Khusus',
+        ] as $query => $expected) {
+            $this->get(route('archives.search', ['q' => $query]))
+                ->assertOk()
+                ->assertSee($expected);
+        }
     }
 }
